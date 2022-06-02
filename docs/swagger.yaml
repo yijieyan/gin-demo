@@ -1,0 +1,166 @@
+definitions:
+  dto.GetUserInfoOutput:
+    properties:
+      account:
+        description: 账号
+        type: string
+      age:
+        description: 年龄
+        type: integer
+      avatar_url:
+        description: 头像
+        type: string
+      birth:
+        description: 出生日期
+        type: string
+      id:
+        description: 用户id
+        type: string
+      name:
+        description: 用户名
+        type: string
+      sex:
+        description: 性别 1：男 2：女
+        type: string
+    type: object
+  dto.LoginInput:
+    properties:
+      account:
+        description: 账号
+        maxLength: 22
+        minLength: 6
+        type: string
+      password:
+        description: 密码
+        type: string
+    required:
+    - account
+    - password
+    type: object
+  dto.LoginOutput:
+    properties:
+      token:
+        description: 用户token
+        type: string
+    type: object
+  dto.RegisterInput:
+    properties:
+      account:
+        description: 账号
+        type: string
+      age:
+        description: 年龄
+        type: integer
+      birth:
+        description: 出生日期
+        type: string
+      name:
+        description: 用户名
+        type: string
+      password:
+        description: 密码
+        maxLength: 22
+        minLength: 6
+        type: string
+      sex:
+        description: 性别 1：男 2：女
+        type: integer
+    required:
+    - account
+    - birth
+    - name
+    - sex
+    type: object
+  middleware.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /user/getUserInfo:
+    get:
+      consumes:
+      - application/json
+      description: 用户获取个人信息接口
+      operationId: /user/getUserInfo
+      parameters:
+      - description: header
+        in: header
+        name: authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetUserInfoOutput'
+              type: object
+      summary: 用户获取个人信息
+      tags:
+      - 用户管理
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录接口
+      operationId: /user/login
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.LoginOutput'
+              type: object
+      summary: 用户登录
+      tags:
+      - 用户管理
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册接口
+      operationId: /user/register
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 用户注册
+      tags:
+      - 用户管理
+swagger: "2.0"

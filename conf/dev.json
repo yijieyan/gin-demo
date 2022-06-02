@@ -1,0 +1,23 @@
+{
+  "debug_mode": "debug",
+  "addr":":8080",
+  "read_timeout": 10,
+  "write_timeout": 10,
+  "max_header_bytes": 20,
+  "secret": "aasdasdasd3qe1231313131wqeADSADADA23adada",
+  "mysql": {
+    "host":"127.0.0.1",
+    "port":3306,
+    "username":"root",
+    "password":"1234567890",
+    "database":"test"
+  },
+  "swagger": {
+    "title": "gin_demo swagger api",
+    "desc": "this is a sample server caller server",
+    "base_path": "",
+    "host": "127.0.0.1:8080",
+    "version": "1.0"
+  }
+
+}
