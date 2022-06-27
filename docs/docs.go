@@ -198,7 +198,7 @@ const docTemplate = `{
                     "description": "账号",
                     "type": "string",
                     "maxLength": 22,
-                    "minLength": 6
+                    "minLength": 3
                 },
                 "password": {
                     "description": "密码",

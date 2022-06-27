@@ -28,7 +28,7 @@ definitions:
       account:
         description: 账号
         maxLength: 22
-        minLength: 6
+        minLength: 3
         type: string
       password:
         description: 密码

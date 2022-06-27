@@ -8,11 +8,11 @@ import (
 )
 
 // JWTAuthMiddleware 基于JWT的认证中间件--验证用户是否登录
-func JWTAuthMiddleware() func(c *gin.Context) {
+func JWTAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("authorization")
 		if authHeader == "" {
-			ResponseError(c,errors.New("请求头中auth为空"))
+			ResponseError(c, errors.New("请求头中auth为空"))
 			c.Abort()
 			return
 		}
@@ -25,7 +25,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		}
 		data, err := utils.ParseToken(authHeader)
 		if err != nil {
-			ResponseError(c,errors.New("无效的Token"))
+			ResponseError(c, errors.New("无效的Token"))
 			c.Abort()
 			return
 		}
@@ -35,5 +35,3 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		c.Next() // 后续的处理函数可以用过c.Get("username")来获取当前请求的用户信息
 	}
 }
-
-

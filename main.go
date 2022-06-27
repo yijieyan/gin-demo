@@ -1,21 +1,29 @@
 package main
 
 import (
+	"flag"
+	"gin_demo/pkg/conf"
+	"gin_demo/pkg/gorm"
+	rds "gin_demo/pkg/redis"
 	"gin_demo/router"
-	"gin_demo/utils"
-	"os"
-	"os/signal"
-	"syscall"
+	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
-	utils.ReadConfigFile("./conf/dev.json")
+	configFile := flag.String("config", "./conf/dev.json", "Config file path")
+	if err := conf.Init(*configFile); err != nil {
+		log.Panicf("load config file failed:%v", err)
+	}
+	if err := gorm.CheckStatus(); err != nil {
+		log.Panicf("check mysql failed. error:%v", err)
+	}
 
-	utils.Connect()
-	router.HttpServerRun()
-
-	quit := make(chan os.Signal)
-	signal.Notify(quit, syscall.SIGKILL,syscall.SIGQUIT,syscall.SIGINT,syscall.SIGTERM)
-	<-quit
-	router.HttpServerStop()
+	if err := rds.CheckStatus(); err != nil {
+		log.Panicf("check redis failed. error:%v", err)
+	}
+	r := gin.Default()
+	gin.SetMode(conf.GetString("mode"))
+	router.InitRouter(r)
+	r.Run(conf.GetString("addr"))
 }

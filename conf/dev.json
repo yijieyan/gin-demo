@@ -1,16 +1,18 @@
 {
-  "debug_mode": "debug",
   "addr":":8080",
-  "read_timeout": 10,
-  "write_timeout": 10,
-  "max_header_bytes": 20,
+  "mode": "debug",
   "secret": "aasdasdasd3qe1231313131wqeADSADADA23adada",
   "mysql": {
-    "host":"127.0.0.1",
-    "port":3306,
-    "username":"root",
-    "password":"1234567890",
-    "database":"test"
+    "main": {
+      "dsn": "root:1234567890@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+    }
+  },
+  "redis": {
+    "main": {
+      "addr": "127.0.0.1:6379",
+      "password": "",
+      "db": "db"
+    }
   },
   "swagger": {
     "title": "gin_demo swagger api",
